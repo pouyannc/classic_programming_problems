@@ -1,11 +1,11 @@
 def caeser_cipher(string, shift) #return string modified by shifting each letter by shift factor
-    #make sure to reduce shift by 25 unless its below 26 + some other condition
+    shift  -= 26*(shift/26) unless shift < 26 
     modified_string_arr = string.split("").map do |c|
         if [*("A".."z")].any?(c)
-            if c.ord + 5 > 122 
-                (c.ord + 5 - 26).chr
+            if c.ord + shift > 122 || c == c.upcase && c.ord + shift > 90
+                (c.ord + shift - 26).chr
             else
-                (c.ord + 5).chr
+                (c.ord + shift).chr
             end
         else 
             c
@@ -15,7 +15,7 @@ def caeser_cipher(string, shift) #return string modified by shifting each letter
     p modified_string
 end
 
-caeser_cipher("Hello, world!", 5)
+caeser_cipher("What's the word with you, sir?", 57)
 
-#a.ord => 97
-#A.ord => 65
+#a.ord => 97, z.ord => 122
+#A.ord => 65, Z.ord => 90
